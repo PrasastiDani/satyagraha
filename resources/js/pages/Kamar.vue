@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
-import TipeKamar from '@/components/kamar/TipeKamar.vue'; // Import komponen baru
+import TipeKamar from '@/components/kamar/TipeKamar.vue';
 
 onMounted(() => {
     if (typeof AOS !== 'undefined') {

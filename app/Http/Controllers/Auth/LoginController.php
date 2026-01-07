@@ -19,7 +19,6 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // Mengarahkan langsung ke nama rute 'admin.dashboard'
             return redirect()->intended(route('admin.dashboard'));
         }
 

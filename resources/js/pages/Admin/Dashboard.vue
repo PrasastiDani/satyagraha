@@ -5,7 +5,6 @@ const logout = () => {
     router.post(route('logout'));
 };
 
-// Data statistik dummy untuk tampilan awal
 const stats = [
     { label: 'Total Kamar', value: '24', icon: 'bed' },
     { label: 'Pesan Baru', value: '12', icon: 'mail' },

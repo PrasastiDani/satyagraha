@@ -3,11 +3,10 @@ import { onMounted } from 'vue';
 import Navbar from '@/components/Navbar.vue';
 import HeroSlider from '@/components/home/HeroSlider.vue';
 import Facilities from '@/components/home/Facilities.vue';
-import Destinasi from '@/components/home/Destinasi.vue'; // Import komponen baru
+import Destinasi from '@/components/home/Destinasi.vue';
 import TestimoniSlider from '@/components/home/TestimoniSlider.vue';
 import Footer from '@/components/Footer.vue';
 
-// (Data destinations sudah dihapus dari sini karena pindah ke Destinasi.vue)
 
 onMounted(() => {
     if (typeof AOS !== 'undefined') {

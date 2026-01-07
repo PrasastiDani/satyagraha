@@ -8,7 +8,6 @@ const form = useForm({
 });
 
 const submit = () => {
-    // Jika tidak menggunakan Ziggy, ganti route('login') menjadi '/admin/login'
     form.post('/admin/login', {
         onFinish: () => form.reset('password'),
     });

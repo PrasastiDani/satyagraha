@@ -26,7 +26,6 @@ const filterImages = (category) => {
     }
 };
 
-// Lightbox Logic
 const showLightbox = ref(false);
 const currentImageIndex = ref(0);
 

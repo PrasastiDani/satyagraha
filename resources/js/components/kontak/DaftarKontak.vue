@@ -105,7 +105,6 @@ const emailContacts = [
     transition: transform 0.3s ease;
 }
 
-/* Parent selector hack for hover effect on icon */
 div:hover .material-symbols-outlined {
     transform: scale(1.1);
 }

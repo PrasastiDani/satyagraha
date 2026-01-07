@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
-import TipeFasilitas from '@/components/fasilitas/TipeFasilitas.vue'; // Import komponen baru
+import TipeFasilitas from '@/components/fasilitas/TipeFasilitas.vue';
 
 onMounted(() => {
     if (typeof AOS !== 'undefined') {
