@@ -3,8 +3,8 @@
     "file": "assets/Footer-B1bks2GI.css",
     "src": "_Footer-B1bks2GI.css"
   },
-  "_Footer-wa3Z6ZpJ.js": {
-    "file": "assets/Footer-wa3Z6ZpJ.js",
+  "_Footer-Cpt62e9t.js": {
+    "file": "assets/Footer-Cpt62e9t.js",
     "name": "Footer",
     "imports": [
       "resources/js/app.ts"
@@ -14,7 +14,7 @@
     ]
   },
   "resources/js/app.ts": {
-    "file": "assets/app-NlVe8kMj.js",
+    "file": "assets/app-n2anDW5I.js",
     "name": "app",
     "src": "resources/js/app.ts",
     "isEntry": true,
@@ -34,7 +34,7 @@
     ]
   },
   "resources/js/pages/Admin/Dashboard.vue": {
-    "file": "assets/Dashboard-C9vubf9D.js",
+    "file": "assets/Dashboard-CTqglO6-.js",
     "name": "Dashboard",
     "src": "resources/js/pages/Admin/Dashboard.vue",
     "isDynamicEntry": true,
@@ -43,7 +43,7 @@
     ]
   },
   "resources/js/pages/Admin/Login.vue": {
-    "file": "assets/Login-BHO2Egmd.js",
+    "file": "assets/Login-D0QcGXxi.js",
     "name": "Login",
     "src": "resources/js/pages/Admin/Login.vue",
     "isDynamicEntry": true,
@@ -52,12 +52,12 @@
     ]
   },
   "resources/js/pages/Fasilitas.vue": {
-    "file": "assets/Fasilitas-DEC_s6vQ.js",
+    "file": "assets/Fasilitas-BQEj6vO6.js",
     "name": "Fasilitas",
     "src": "resources/js/pages/Fasilitas.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Footer-wa3Z6ZpJ.js",
+      "_Footer-Cpt62e9t.js",
       "resources/js/app.ts"
     ],
     "css": [
@@ -65,12 +65,12 @@
     ]
   },
   "resources/js/pages/Galeri.vue": {
-    "file": "assets/Galeri-Cc-Lkjup.js",
+    "file": "assets/Galeri-B1t8VYgm.js",
     "name": "Galeri",
     "src": "resources/js/pages/Galeri.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Footer-wa3Z6ZpJ.js",
+      "_Footer-Cpt62e9t.js",
       "resources/js/app.ts"
     ],
     "css": [
@@ -78,12 +78,12 @@
     ]
   },
   "resources/js/pages/Home.vue": {
-    "file": "assets/Home-DXWiRK0n.js",
+    "file": "assets/Home-A2Gd3KCF.js",
     "name": "Home",
     "src": "resources/js/pages/Home.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Footer-wa3Z6ZpJ.js",
+      "_Footer-Cpt62e9t.js",
       "resources/js/app.ts"
     ],
     "css": [
@@ -91,22 +91,22 @@
     ]
   },
   "resources/js/pages/Kamar.vue": {
-    "file": "assets/Kamar-Bj7b5cHC.js",
+    "file": "assets/Kamar-bnqKgfZW.js",
     "name": "Kamar",
     "src": "resources/js/pages/Kamar.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Footer-wa3Z6ZpJ.js",
+      "_Footer-Cpt62e9t.js",
       "resources/js/app.ts"
     ]
   },
   "resources/js/pages/Kontak.vue": {
-    "file": "assets/Kontak-C9Iwsw6d.js",
+    "file": "assets/Kontak-Bri5oPE2.js",
     "name": "Kontak",
     "src": "resources/js/pages/Kontak.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Footer-wa3Z6ZpJ.js",
+      "_Footer-Cpt62e9t.js",
       "resources/js/app.ts"
     ],
     "css": [
@@ -114,12 +114,12 @@
     ]
   },
   "resources/js/pages/Meetingballroom.vue": {
-    "file": "assets/Meetingballroom-J0kD5Zyt.js",
+    "file": "assets/Meetingballroom-jjIGhF2S.js",
     "name": "Meetingballroom",
     "src": "resources/js/pages/Meetingballroom.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_Footer-wa3Z6ZpJ.js",
+      "_Footer-Cpt62e9t.js",
       "resources/js/app.ts"
     ],
     "css": [
@@ -127,7 +127,7 @@
     ]
   },
   "resources/js/pages/Welcome.vue": {
-    "file": "assets/Welcome-Bzwm9t8Y.js",
+    "file": "assets/Welcome-OuVU0et8.js",
     "name": "Welcome",
     "src": "resources/js/pages/Welcome.vue",
     "isDynamicEntry": true,
