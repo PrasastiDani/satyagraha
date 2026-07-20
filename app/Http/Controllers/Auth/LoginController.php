@@ -3,37 +3,83 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class LoginController extends Controller
 {
-    public function store(Request $request)
+    public function index()
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+        return Inertia::render('Admin/Login');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'login' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'password' => [
+                'required',
+                'string',
+            ],
+            'remember' => [
+                'nullable',
+                'boolean',
+            ],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        $login = trim($validated['login']);
+
+        /*
+         * Jika formatnya valid sebagai email, cari lewat email.
+         * Selain itu, cari lewat username.
+         */
+        $loginField = filter_var($login, FILTER_VALIDATE_EMAIL)
+            ? 'email'
+            : 'username';
+
+        $authenticated = Auth::attempt([
+            $loginField => $login,
+            'password' => $validated['password'],
+
+            /*
+             * Hanya user dengan role admin yang boleh
+             * melakukan autentikasi melalui portal admin.
+             */
+            fn(Builder $query) => $query->whereHas(
+                'role',
+                fn(Builder $roleQuery) => $roleQuery
+                    ->where('slug', 'admin')
+            ),
+        ], $request->boolean('remember'));
+
+        if ($authenticated) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('admin.dashboard'));
+            return redirect()->intended(
+                route('admin.dashboard')
+            );
         }
 
         throw ValidationException::withMessages([
-            'email' => 'Identitas tersebut tidak cocok dengan data kami.',
+            'login' => 'Username/email atau password salah, atau akun tidak memiliki akses admin.',
         ]);
     }
 
     public function destroy(Request $request)
-{
-    Auth::logout();
+    {
+        Auth::logout();
 
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-    return redirect('/'); // Diarahkan kembali ke halaman depan hotel
-}
+        return redirect('/'); // Diarahkan kembali ke halaman depan hotel
+    }
 }

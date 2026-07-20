@@ -2,7 +2,7 @@
 import { Link, router } from '@inertiajs/vue3';
 
 const logout = () => {
-    router.post(route('logout'));
+    router.post('/admin/logout');
 };
 
 const stats = [
@@ -13,64 +13,70 @@ const stats = [
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-50 flex">
-        <aside class="w-64 bg-satya-dark text-white p-6 flex flex-col">
+    <div class="flex min-h-screen bg-gray-50">
+        <aside class="bg-satya-dark flex w-64 flex-col p-6 text-white">
             <div class="mb-10 text-center">
-                <h2 class="font-serif text-satya-gold text-xl tracking-widest uppercase">Satya Graha</h2>
-                <p class="text-[10px] text-gray-400 mt-1 uppercase tracking-widest font-bold">Admin Panel</p>
+                <h2 class="text-satya-gold font-serif text-xl tracking-widest uppercase">Satya Graha</h2>
+                <p class="mt-1 text-[10px] font-bold tracking-widest text-gray-400 uppercase">Admin Panel</p>
             </div>
 
             <nav class="flex-grow space-y-2">
-                <Link :href="'/admin/dashboard'"
-                    :class="{ 'bg-white/10 text-satya-gold': $page.component === 'Admin/Dashboard' }"
-                    class="flex items-center gap-3 p-3 rounded-xl transition">
+                <Link
+                    :href="'/admin/dashboard'"
+                    :class="{ 'text-satya-gold bg-white/10': $page.component === 'Admin/Dashboard' }"
+                    class="flex items-center gap-3 rounded-xl p-3 transition"
+                >
                     <span class="material-symbols-outlined text-sm">dashboard</span>
-                    <span class="text-xs font-bold uppercase tracking-widest">Dashboard</span>
+                    <span class="text-xs font-bold tracking-widest uppercase">Dashboard</span>
                 </Link>
             </nav>
 
-            <button @click="logout"
-                class="flex items-center gap-3 p-3 text-red-400 hover:bg-red-500/10 rounded-xl transition mt-auto">
+            <button @click="logout" class="mt-auto flex items-center gap-3 rounded-xl p-3 text-red-400 transition hover:bg-red-500/10">
                 <span class="material-symbols-outlined text-sm">logout</span>
-                <span class="text-xs font-bold uppercase tracking-widest">Logout</span>
+                <span class="text-xs font-bold tracking-widest uppercase">Logout</span>
             </button>
         </aside>
 
         <main class="flex-grow p-10">
-            <header class="flex justify-between items-center mb-10">
+            <header class="mb-10 flex items-center justify-between">
                 <div>
-                    <h1 class="text-2xl font-serif text-satya-dark uppercase tracking-widest">Dashboard Overview</h1>
-                    <p class="text-gray-400 text-sm italic">Selamat datang kembali, Admin.</p>
+                    <h1 class="text-satya-dark font-serif text-2xl tracking-widest uppercase">Dashboard Overview</h1>
+                    <p class="text-sm text-gray-400 italic">Selamat datang kembali, Admin.</p>
                 </div>
                 <div class="flex items-center gap-4">
-                    <Link href="/"
-                        class="text-[10px] font-bold uppercase tracking-widest text-satya-gold border border-satya-gold px-4 py-2 rounded-full hover:bg-satya-gold hover:text-white transition">
+                    <Link
+                        href="/"
+                        class="text-satya-gold border-satya-gold hover:bg-satya-gold rounded-full border px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition hover:text-white"
+                    >
                         Lihat Website
                     </Link>
                 </div>
             </header>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div v-for="stat in stats" :key="stat.label"
-                    class="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 flex items-center gap-5">
-                    <div class="w-12 h-12 bg-satya-gold/10 rounded-2xl flex items-center justify-center">
+            <div class="mb-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div
+                    v-for="stat in stats"
+                    :key="stat.label"
+                    class="flex items-center gap-5 rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm"
+                >
+                    <div class="bg-satya-gold/10 flex h-12 w-12 items-center justify-center rounded-2xl">
                         <span class="material-symbols-outlined text-satya-gold">{{ stat.icon }}</span>
                     </div>
                     <div>
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ stat.label }}</p>
-                        <p class="text-2xl font-bold text-satya-dark">{{ stat.value }}</p>
+                        <p class="text-[10px] font-bold tracking-widest text-gray-400 uppercase">{{ stat.label }}</p>
+                        <p class="text-satya-dark text-2xl font-bold">{{ stat.value }}</p>
                     </div>
                 </div>
             </div>
 
             <div
-                class="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-10 min-h-[400px] flex flex-col items-center justify-center text-center">
-                <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                class="flex min-h-[400px] flex-col items-center justify-center rounded-[2rem] border border-gray-100 bg-white p-10 text-center shadow-sm"
+            >
+                <div class="mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gray-50">
                     <span class="material-symbols-outlined text-4xl text-gray-300">edit_note</span>
                 </div>
-                <h3 class="text-satya-dark font-serif text-xl mb-2">Mulai Kelola Konten</h3>
-                <p class="text-gray-400 text-sm max-w-sm italic">Pilih menu di samping untuk menambah, mengubah, atau
-                    menghapus data hotel.</p>
+                <h3 class="text-satya-dark mb-2 font-serif text-xl">Mulai Kelola Konten</h3>
+                <p class="max-w-sm text-sm text-gray-400 italic">Pilih menu di samping untuk menambah, mengubah, atau menghapus data hotel.</p>
             </div>
         </main>
     </div>
