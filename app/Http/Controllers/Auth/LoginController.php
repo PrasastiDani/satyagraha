@@ -14,7 +14,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Login');
+        return Inertia::render('admin/Login');
     }
 
     public function store(Request $request): RedirectResponse

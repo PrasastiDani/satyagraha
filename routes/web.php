@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\EmploymentTypeController;
+use App\Http\Controllers\Admin\JobVacancyController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -52,6 +55,21 @@ Route::prefix('admin')
     ->middleware(['auth', 'role:admin'])
     ->group(function () {
         Route::get('/dashboard', function () {
-            return Inertia::render('Admin/Dashboard');
+            return Inertia::render('admin/Dashboard');
         })->name('dashboard');
+
+        Route::resource(
+            'departments',
+            DepartmentController::class
+        )->except('show');
+
+        Route::resource(
+            'employment-types',
+            EmploymentTypeController::class
+        )->except('show');
+
+        Route::resource(
+            'job-vacancies',
+            JobVacancyController::class
+        )->except('show');
     });

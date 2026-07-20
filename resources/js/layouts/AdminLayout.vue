@@ -1,6 +1,6 @@
 <script setup>
 import { Link, router, usePage } from '@inertiajs/vue3';
-import { computed, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 
 defineProps({
     title: {
@@ -26,6 +26,29 @@ const menus = [
         exact: true,
     },
 
+    {
+        key: 'karier',
+        label: 'Karier',
+        icon: 'business_center',
+        children: [
+            {
+                label: 'Departemen',
+                href: '/admin/departments',
+                icon: 'account_tree',
+            },
+            {
+                label: 'Tipe Pekerjaan',
+                href: '/admin/employment-types',
+                icon: 'schedule',
+            },
+            {
+                label: 'Lowongan Kerja',
+                href: '/admin/job-vacancies',
+                icon: 'work_outline',
+            },
+        ],
+    },
+
     // Contoh menu berikutnya:
     // {
     //     label: 'Kamar',
@@ -44,8 +67,58 @@ const menus = [
     // },
 ];
 
+const openMenus = reactive({
+    karier: false,
+});
+
 const currentUrl = computed(() => {
     return page.url.split('?')[0];
+});
+
+const isLinkActive = (menu) => {
+    if (!menu.href) {
+        return false;
+    }
+
+    if (menu.exact) {
+        return currentUrl.value === menu.href;
+    }
+
+    return currentUrl.value === menu.href || currentUrl.value.startsWith(`${menu.href}/`);
+};
+
+const isGroupActive = (menu) => {
+    return menu.children?.some((child) => isLinkActive(child)) ?? false;
+};
+
+const syncOpenMenu = () => {
+    menus.forEach((menu) => {
+        if (menu.children && isGroupActive(menu)) {
+            openMenus[menu.key] = true;
+        }
+    });
+};
+
+const toggleMenu = (menu) => {
+    /*
+     * Jika sidebar sedang kecil, klik menu akan memperbesar
+     * sidebar terlebih dahulu sekaligus membuka dropdown.
+     */
+    if (sidebarCollapsed.value) {
+        sidebarCollapsed.value = false;
+        openMenus[menu.key] = true;
+
+        return;
+    }
+
+    openMenus[menu.key] = !openMenus[menu.key];
+};
+
+syncOpenMenu();
+
+watch(currentUrl, () => {
+    syncOpenMenu();
+    closeMobileSidebar();
 });
 
 const authUser = computed(() => {
@@ -171,37 +244,123 @@ watch(currentUrl, () => {
                     <p class="text-[9px] font-black tracking-[0.22em] text-gray-500 uppercase">Main Menu</p>
                 </div>
 
-                <nav class="flex-1 space-y-2 overflow-y-auto">
-                    <Link
-                        v-for="menu in menus"
-                        :key="menu.href"
-                        :href="menu.href"
-                        :title="sidebarCollapsed ? menu.label : undefined"
-                        class="group relative flex min-h-12 items-center rounded-2xl transition-all duration-200"
-                        :class="[
-                            sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'gap-3 px-3',
+                <nav class="flex-1 space-y-2 overflow-x-hidden overflow-y-auto">
+                    <template v-for="menu in menus" :key="menu.key ?? menu.href">
+                        <!-- Menu biasa -->
+                        <Link
+                            v-if="!menu.children"
+                            :href="menu.href"
+                            :title="sidebarCollapsed ? menu.label : undefined"
+                            class="group relative flex min-h-12 items-center rounded-2xl transition-all duration-200"
+                            :class="[
+                                sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'gap-3 px-3',
 
-                            isActive(menu)
-                                ? 'text-satya-gold bg-white/10 shadow-inner shadow-white/5'
-                                : 'text-gray-400 hover:bg-white/5 hover:text-white',
-                        ]"
-                        @click="closeMobileSidebar"
-                    >
-                        <span v-if="isActive(menu)" class="bg-satya-gold absolute inset-y-3 left-0 w-1 rounded-r-full" />
-
-                        <div
-                            class="flex size-9 shrink-0 items-center justify-center rounded-xl transition"
-                            :class="isActive(menu) ? 'bg-satya-gold/15 text-satya-gold' : 'bg-white/5 group-hover:bg-white/10'"
+                                isLinkActive(menu)
+                                    ? 'text-satya-gold bg-white/10 shadow-inner shadow-white/5'
+                                    : 'text-gray-400 hover:bg-white/5 hover:text-white',
+                            ]"
+                            @click="closeMobileSidebar"
                         >
-                            <span class="material-symbols-outlined text-[20px]">
-                                {{ menu.icon }}
-                            </span>
-                        </div>
+                            <span v-if="isLinkActive(menu)" class="bg-satya-gold absolute inset-y-3 left-0 w-1 rounded-r-full" />
 
-                        <span v-show="!sidebarCollapsed" class="truncate text-[11px] font-bold tracking-[0.13em] uppercase">
-                            {{ menu.label }}
-                        </span>
-                    </Link>
+                            <div
+                                class="flex size-9 shrink-0 items-center justify-center rounded-xl transition"
+                                :class="isLinkActive(menu) ? 'bg-satya-gold/15 text-satya-gold' : 'bg-white/5 group-hover:bg-white/10'"
+                            >
+                                <span class="material-symbols-outlined text-[20px]">
+                                    {{ menu.icon }}
+                                </span>
+                            </div>
+
+                            <span class="truncate text-[11px] font-bold tracking-[0.13em] uppercase" :class="{ 'lg:hidden': sidebarCollapsed }">
+                                {{ menu.label }}
+                            </span>
+                        </Link>
+
+                        <!-- Menu dropdown -->
+                        <div v-else>
+                            <button
+                                type="button"
+                                :title="sidebarCollapsed ? menu.label : undefined"
+                                class="group relative flex min-h-12 w-full items-center rounded-2xl transition-all duration-200"
+                                :class="[
+                                    sidebarCollapsed ? 'lg:justify-center lg:px-0' : 'gap-3 px-3',
+
+                                    isGroupActive(menu) ? 'text-satya-gold bg-white/10' : 'text-gray-400 hover:bg-white/5 hover:text-white',
+                                ]"
+                                @click="toggleMenu(menu)"
+                            >
+                                <span v-if="isGroupActive(menu)" class="bg-satya-gold absolute inset-y-3 left-0 w-1 rounded-r-full" />
+
+                                <div
+                                    class="flex size-9 shrink-0 items-center justify-center rounded-xl transition"
+                                    :class="isGroupActive(menu) ? 'bg-satya-gold/15 text-satya-gold' : 'bg-white/5 group-hover:bg-white/10'"
+                                >
+                                    <span class="material-symbols-outlined text-[20px]">
+                                        {{ menu.icon }}
+                                    </span>
+                                </div>
+
+                                <span
+                                    class="min-w-0 flex-1 truncate text-left text-[11px] font-bold tracking-[0.13em] uppercase"
+                                    :class="{ 'lg:hidden': sidebarCollapsed }"
+                                >
+                                    {{ menu.label }}
+                                </span>
+
+                                <span
+                                    class="material-symbols-outlined text-lg transition-transform duration-200"
+                                    :class="[
+                                        openMenus[menu.key] ? 'rotate-180' : 'rotate-0',
+
+                                        {
+                                            'lg:hidden': sidebarCollapsed,
+                                        },
+                                    ]"
+                                >
+                                    keyboard_arrow_down
+                                </span>
+                            </button>
+
+                            <!-- Isi dropdown -->
+                            <Transition
+                                enter-active-class="transition-all duration-200 ease-out"
+                                enter-from-class="-translate-y-1 opacity-0"
+                                enter-to-class="translate-y-0 opacity-100"
+                                leave-active-class="transition-all duration-150 ease-in"
+                                leave-from-class="translate-y-0 opacity-100"
+                                leave-to-class="-translate-y-1 opacity-0"
+                            >
+                                <div
+                                    v-show="openMenus[menu.key] && !sidebarCollapsed"
+                                    class="relative mt-2 ml-6 space-y-1 border-l border-white/10 pl-4"
+                                >
+                                    <Link
+                                        v-for="child in menu.children"
+                                        :key="child.href"
+                                        :href="child.href"
+                                        class="group flex min-h-11 items-center gap-3 rounded-xl px-3 transition"
+                                        :class="
+                                            isLinkActive(child)
+                                                ? 'bg-satya-gold/10 text-satya-gold'
+                                                : 'text-gray-400 hover:bg-white/5 hover:text-white'
+                                        "
+                                        @click="closeMobileSidebar"
+                                    >
+                                        <span class="material-symbols-outlined text-[18px]">
+                                            {{ child.icon }}
+                                        </span>
+
+                                        <span class="truncate text-[10px] font-bold tracking-[0.11em] uppercase">
+                                            {{ child.label }}
+                                        </span>
+
+                                        <span v-if="isLinkActive(child)" class="bg-satya-gold ml-auto size-1.5 rounded-full" />
+                                    </Link>
+                                </div>
+                            </Transition>
+                        </div>
+                    </template>
                 </nav>
 
                 <!-- Website link -->
