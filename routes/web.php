@@ -38,12 +38,20 @@ Route::prefix('admin')->middleware('guest')->group(function () {
 
 // Grup Dashboard Admin (Hanya bisa diakses setelah login)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return Inertia::render('Admin/Dashboard');
-    })->name('admin.dashboard');
+
 
     // Tambahkan rute management konten di sini nanti, contoh:
     // Route::resource('admin/kamar', KamarController::class);
 
     Route::post('/admin/logout', [LoginController::class, 'destroy'])->name('logout');
 });
+
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'role:admin'])
+    ->group(function () {
+        Route::get('/dashboard', function () {
+            return Inertia::render('Admin/Dashboard');
+        })->name('dashboard');
+    });
